@@ -1,5 +1,4 @@
 import math
-import time
 
 from .base_page import BasePage
 from .locators import ProductPageLocators
@@ -11,14 +10,18 @@ class ProductPage(BasePage):
         add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BUTTON)
         add_button.click()
 
-    def should_see_equals_price_in_message(self):
-        product_price = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text
+    def get_product_name(self):
+        return self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
+
+    def get_product_price(self):
+        return self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text
+
+    def should_see_equals_price_in_message(self, product_price):
         price_in_message = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE_IN_BASKET_MESSAGE).text
         assert product_price == price_in_message, \
             f"Expected price in basket message is '{product_price}' but actual is'{price_in_message}'"
 
-    def should_see_equals_name_in_message(self):
-        product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
+    def should_see_equals_name_in_message(self, product_name):
         name_in_message = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME_IN_BASKET_MESSAGE).text
         assert product_name == name_in_message, \
             f"Expected name in basket message is '{product_name}' but actual is'{name_in_message}'"
